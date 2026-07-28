@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Formulario Recepción de vehiculo</title><style>*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#eef3f8;--text:#172033;--title:#102033;--card:#ffffff;--card-border:#d9e3ee;
+  --input-bg:#f9fbfd;--input-text:#132238;--muted:#5e6b7a;--soft:#f4f7fb;
+  --green:#25d366;--green-dark:#168c45;--shadow:rgba(38,64,94,.12);
+}
+body.dark{
+  --bg:#050505;--text:#f4f4f4;--title:#ffffff;--card:#111111;--card-border:#2b2b2b;
+  --input-bg:#ffffff;--input-text:#111111;--muted:#c8c8c8;--soft:#1a1a1a;
+  --green:#25d366;--green-dark:#20b85a;--shadow:rgba(0,0,0,.35);
+}
+body{font-family:Arial,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding:10px;transition:background .2s,color .2s}
+main{width:100%;max-width:430px;margin:0 auto}
+.top{text-align:center;margin-bottom:8px;position:relative}
+.top h1{font-size:18px;margin-bottom:4px;white-space:nowrap;color:var(--title);letter-spacing:-.6px;line-height:1.15;padding:0 46px}
+.theme-toggle{position:absolute;right:0;top:-2px;border:1px solid var(--card-border);background:var(--card);color:var(--text);border-radius:999px;padding:7px 9px;font-size:17px;font-weight:bold;cursor:pointer;box-shadow:0 3px 9px var(--shadow)}
+.top p{font-size:16px;font-weight:bold;line-height:1.35}.top a{color:var(--green-dark)}
+.report-link{text-align:center;margin:10px 0 3px}.report-link a{color:var(--green-dark);font-size:15px;font-weight:bold;text-decoration:underline}
+.card{background:var(--card);border:1px solid var(--card-border);border-radius:13px;padding:10px;margin-bottom:9px;box-shadow:0 4px 12px var(--shadow)}
+h3{font-size:18px;margin-bottom:9px;text-align:center;color:var(--title)}.row{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;margin-bottom:9px}.row:last-child{margin-bottom:0}
+label{font-size:17px}.small-label{font-size:13px;color:var(--muted)}
+.boxinput,.vehiculo,.ppu,.conos,.estanque,.boucher,.kmcarga,.hora,.minuto,.litros,.total,.lugar,textarea{border:2px solid #d4dde8;border-radius:10px;padding:8px;text-align:center;font-weight:bold;font-size:17px;background:var(--input-bg);color:var(--input-text);outline:none;min-height:44px}
+.boxinput:focus,.vehiculo:focus,.ppu:focus,.conos:focus,.estanque:focus,.boucher:focus,.kmcarga:focus,.hora:focus,.minuto:focus,.litros:focus,.total:focus,.lugar:focus,textarea:focus{border-color:var(--green);box-shadow:0 0 0 3px rgba(37,211,102,.16);background:#fff;color:#111}
+.invalid-field{border-color:#e11d48!important;box-shadow:0 0 0 3px rgba(225,29,72,.18)!important;background:#fff5f7!important}
+.invalid-card{border-color:#e11d48!important;box-shadow:0 0 0 3px rgba(225,29,72,.12)!important}
+.validation-msg{display:none;color:#e11d48;text-align:center;font-size:14px;font-weight:bold;margin-top:6px}.validation-msg.show{display:block}
+.boxinput{width:100px}.vehiculo{width:72px;text-transform:uppercase}.ppu{width:56px}.conos{width:70px}.estanque{width:115px}.boucher,.kmcarga,.litros,.total{width:122px}.hora,.minuto{width:58px}.lugar{width:100%;max-width:360px;text-align:left}
+.radio-group{display:flex;justify-content:center;gap:20px}.radio-group label,.check-item,label.toggle-all{display:flex;align-items:center;gap:8px;cursor:pointer}
+input[type=checkbox],input[type=radio]{appearance:none;-webkit-appearance:none;border:3px solid var(--green);border-radius:6px;width:25px;height:25px;display:inline-grid;place-content:center;background:#fff;flex:none}
+input[type=radio]{border-radius:50%}
+input[type=checkbox]:checked,input[type=radio]:checked{background:#fff;border-color:var(--green-dark)}
+input[type=checkbox]:checked:before,input[type=radio]:checked:before{content:'✓';font-size:25px;font-weight:900;line-height:1;color:#000;text-shadow:none}
+.check-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px;margin-top:8px}.check-item{background:var(--soft);border:1px solid var(--card-border);border-radius:11px;padding:8px;min-height:46px;font-size:15px;line-height:1.15;color:var(--text)}
+.hidden{display:none!important}.boton,.secondary-btn{width:100%;border:0;border-radius:12px;padding:15px;font-size:19px;font-weight:bold;color:#fff;background:var(--green);cursor:pointer;box-shadow:0 6px 14px rgba(37,211,102,.25)}.secondary-btn{background:#2563eb;margin-top:8px}.boton:hover{background:#1da851}
+textarea{width:100%;min-height:72px;text-align:left;resize:vertical}.novedades-toggle{display:flex;justify-content:center;align-items:center;gap:8px;font-size:17px;font-weight:bold}.novedades-box{margin-top:8px}.fuel-fields{display:grid;grid-template-columns:1fr;gap:8px}.fuel-subcard{margin-top:10px;border:0;border-radius:0;padding:0;background:transparent}.fuel-subcard h3{font-size:16px;margin:10px 0 8px;color:var(--green-dark)}.field-line{display:flex;align-items:center;gap:8px;justify-content:center;flex-wrap:wrap}.clear-btn{width:38px;height:38px;border:0;border-radius:50%;background:#e5e7eb;color:#dc2626;font-size:25px;font-weight:900;line-height:1;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;flex:none;box-shadow:0 2px 5px var(--shadow)}.clear-btn:active{transform:scale(.94)}body.dark .clear-btn{background:#f3f4f6;color:#dc2626}.novedades-input-line{position:relative}.novedades-input-line textarea{padding-right:46px}.novedades-input-line .clear-btn{position:absolute;right:8px;top:8px}.help{font-size:13px;color:var(--muted);text-align:center;margin-top:8px}.novedades-section{margin-top:10px;padding-top:8px}
+.modal-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.45);display:none;align-items:center;justify-content:center;padding:18px;z-index:20}.modal-backdrop.show{display:flex}.modal{width:100%;max-width:440px;max-height:86vh;overflow:auto;background:var(--card);border:1px solid var(--card-border);border-radius:18px;padding:16px}.modal-actions{display:flex;gap:10px;margin-top:12px}.close-btn{background:#687789}.summary-content{white-space:pre-wrap;background:var(--soft);border:1px solid var(--card-border);border-radius:12px;padding:10px;font-size:15px;line-height:1.35;max-height:55vh;overflow:auto}.modal h3{margin-bottom:10px}
+
+.app-navbar{display:flex;align-items:center;justify-content:space-between;gap:8px;background:var(--card);border:1px solid var(--card-border);border-radius:12px;padding:8px 10px;margin-bottom:7px;box-shadow:0 3px 10px var(--shadow)}
+.nav-brand{display:flex;align-items:center;gap:7px;min-width:0}.nav-car{font-size:20px;line-height:1}.nav-title{font-size:15px;font-weight:800;color:var(--title);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;letter-spacing:-.4px}.menu-btn{width:36px;height:36px;border:1px solid var(--card-border);border-radius:10px;background:var(--soft);color:var(--text);font-size:23px;font-weight:900;line-height:1;display:flex;align-items:center;justify-content:center;cursor:pointer;flex:none}.settings-modal{max-width:360px}.setting-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px solid var(--card-border);font-weight:bold}.setting-check input{margin-left:auto}.text-size-controls{display:flex;align-items:center;gap:8px}.mini-btn{width:38px;height:38px;border:0;border-radius:10px;background:var(--green);color:#000;font-size:25px;font-weight:900;line-height:1;cursor:pointer}.text-size-label{min-width:70px;text-align:center;color:var(--title)}.settings-preview{margin-top:10px;background:var(--soft);border:1px solid var(--card-border);border-radius:10px;padding:10px;text-align:center;font-weight:bold;color:var(--text)}
+body.text-size-small .nav-title{font-size:13.5px!important}body.text-size-small h3{font-size:15px!important}body.text-size-small label,body.text-size-small .novedades-toggle{font-size:14px!important}body.text-size-small .boxinput,body.text-size-small .vehiculo,body.text-size-small .ppu,body.text-size-small .conos,body.text-size-small .estanque,body.text-size-small .boucher,body.text-size-small .kmcarga,body.text-size-small .hora,body.text-size-small .minuto,body.text-size-small .litros,body.text-size-small .total,body.text-size-small .lugar,body.text-size-small textarea{font-size:14px!important}body.text-size-small .check-item{font-size:12.5px!important}
+body.text-size-large .nav-title{font-size:16.5px!important}body.text-size-large h3{font-size:17.5px!important}body.text-size-large label,body.text-size-large .novedades-toggle{font-size:16px!important}body.text-size-large .boxinput,body.text-size-large .vehiculo,body.text-size-large .ppu,body.text-size-large .conos,body.text-size-large .estanque,body.text-size-large .boucher,body.text-size-large .kmcarga,body.text-size-large .hora,body.text-size-large .minuto,body.text-size-large .litros,body.text-size-large .total,body.text-size-large .lugar,body.text-size-large textarea{font-size:16.5px!important}body.text-size-large .check-item{font-size:14.5px!important}.settings-preview.preview-small{font-size:13px}.settings-preview.preview-normal{font-size:15px}.settings-preview.preview-large{font-size:18px}
+
+
+.section-title{font-size:15px;color:var(--green-dark);font-weight:bold;margin:10px 0 6px}.pill-summary{background:rgba(37,211,102,.12);border:1px solid var(--green);border-radius:12px;padding:8px;text-align:center;margin-top:8px;color:var(--text)}.cargo-section{margin-top:10px}.cargo-section h4{font-size:17px;color:var(--green-dark);margin:10px 0 6px;text-align:left}
+@media(max-width:340px){.top h1{font-size:15px;padding:0 40px}.theme-toggle{font-size:15px;padding:6px 8px}.check-grid{gap:6px}.check-item{font-size:14px;padding:7px}}
+@media(max-width:390px){body{padding:8px}.card{padding:9px}.top h1{font-size:16px}.check-item{min-height:48px}.boxinput,.vehiculo,.ppu,.conos,.estanque,.boucher,.kmcarga,.hora,.minuto,.litros,.total,.lugar,textarea{font-size:16px;min-height:43px}}
+
+/* Ajuste compacto para celular vertical */
+body{padding:6px!important}
+main{max-width:420px!important}
+.top{margin-bottom:5px!important}
+.top h1{font-size:16px!important;line-height:1.05!important;margin-bottom:2px!important;letter-spacing:-.7px!important}
+.theme-toggle{padding:5px 8px!important;font-size:15px!important;top:-4px!important}
+.card{border-radius:10px!important;padding:8px!important;margin-bottom:7px!important;box-shadow:0 2px 8px var(--shadow)!important}
+h3{font-size:16px!important;margin-bottom:6px!important;line-height:1.1!important}
+.row{gap:6px!important;margin-bottom:7px!important}
+label{font-size:15px!important}.small-label{font-size:12px!important}
+.boxinput,.vehiculo,.ppu,.conos,.estanque,.boucher,.kmcarga,.hora,.minuto,.litros,.total,.lugar,textarea{font-size:15px!important;min-height:38px!important;padding:6px!important;border-radius:9px!important;border-width:2px!important}
+.boxinput{width:88px!important}.vehiculo{width:64px!important}.ppu{width:50px!important}.conos{width:60px!important}.estanque{width:108px!important}.boucher,.kmcarga,.litros,.total{width:112px!important}.hora,.minuto{width:52px!important}
+.radio-group{gap:12px!important;flex-wrap:wrap!important}.radio-group label,.check-item,label.toggle-all{gap:6px!important}
+input[type=checkbox],input[type=radio]{width:22px!important;height:22px!important;border-width:2px!important}
+input[type=checkbox]:checked:before,input[type=radio]:checked:before{font-size:21px!important}
+.check-grid{gap:5px!important;margin-top:5px!important}.check-item{border-radius:9px!important;padding:6px!important;min-height:38px!important;font-size:13.5px!important;line-height:1.05!important}
+.cargo-section{margin-top:6px!important}.cargo-section h4{font-size:15px!important;margin:7px 0 5px!important}.section-title{font-size:14px!important;margin:7px 0 5px!important}
+.fuel-fields{gap:6px!important}.fuel-subcard{margin-top:6px!important}.field-line{gap:6px!important}.novedades-section{margin-top:7px!important;padding-top:5px!important}.novedades-toggle{font-size:15px!important}.novedades-box{margin-top:6px!important}textarea{min-height:58px!important}
+.clear-btn{width:34px!important;height:34px!important;font-size:23px!important}.novedades-input-line textarea{padding-right:42px!important}.novedades-input-line .clear-btn{right:6px!important;top:6px!important}
+.boton,.secondary-btn{border-radius:10px!important;padding:12px!important;font-size:17px!important}.report-link{margin:7px 0 2px!important}.report-link a{font-size:14px!important}.help{font-size:12px!important;margin-top:5px!important}.pill-summary{padding:6px!important;margin-top:6px!important}
+.modal{border-radius:14px!important;padding:12px!important}.summary-content{font-size:14px!important;padding:8px!important}.modal-actions{gap:8px!important;margin-top:9px!important}
+@media(max-width:390px){body{padding:5px!important}.card{padding:7px!important}.top h1{font-size:15px!important}.check-item{font-size:13px!important;min-height:36px!important}.boxinput,.vehiculo,.ppu,.conos,.estanque,.boucher,.kmcarga,.hora,.minuto,.litros,.total,.lugar,textarea{font-size:14.5px!important;min-height:37px!important}}
+
+
+/* Navbar real y campos mas compactos */
+body{padding:0!important}
+main{max-width:430px!important;margin:0 auto!important;padding:0 6px 6px!important}
+.app-navbar{
+  width:100vw!important;
+  margin-left:calc(50% - 50vw)!important;
+  margin-right:calc(50% - 50vw)!important;
+  margin-bottom:7px!important;
+  border-radius:0!important;
+  border-left:0!important;
+  border-right:0!important;
+  border-top:0!important;
+  padding:8px 12px!important;
+  position:sticky!important;
+  top:0!important;
+  z-index:15!important;
+  box-shadow:0 2px 8px var(--shadow)!important;
+}
+.nav-brand{max-width:calc(100vw - 64px)!important}
+.nav-title{font-size:14.5px!important}
+.nav-car{font-size:19px!important}.menu-btn{width:34px!important;height:34px!important;border-radius:8px!important;font-size:22px!important}
+.card{margin-bottom:6px!important}
+.boxinput,.vehiculo,.ppu,.conos,.estanque,.boucher,.kmcarga,.hora,.minuto,.litros,.total,.lugar,textarea{
+  min-height:34px!important;
+  padding:4px 6px!important;
+  font-size:14px!important;
+  border-radius:8px!important;
+}
+.boxinput{width:84px!important}.vehiculo{width:60px!important}.ppu{width:48px!important}.conos{width:58px!important}.estanque{width:104px!important}.boucher,.kmcarga,.litros,.total{width:108px!important}.hora,.minuto{width:50px!important}
+.lugar{max-width:350px!important}
+.clear-btn{width:31px!important;height:31px!important;font-size:22px!important}
+.radio-group label,.check-item,label.toggle-all{gap:5px!important}
+input[type=checkbox],input[type=radio]{width:21px!important;height:21px!important}
+.check-item{min-height:34px!important;padding:5px!important}
+textarea{min-height:54px!important}
+@media(max-width:390px){
+  main{padding:0 5px 5px!important}
+  .app-navbar{padding:8px 10px!important}
+  .nav-title{font-size:14px!important}
+  .boxinput,.vehiculo,.ppu,.conos,.estanque,.boucher,.kmcarga,.hora,.minuto,.litros,.total,.lugar,textarea{min-height:33px!important;font-size:13.8px!important}
+}
+
+
+/* Ajustes solicitados: PPU más larga y título centrado */
+.app-navbar{position:sticky!important;top:0!important;display:grid!important;grid-template-columns:42px 1fr 42px!important;align-items:center!important;gap:6px!important}
+.nav-brand{grid-column:1 / 3!important;display:grid!important;grid-template-columns:42px 1fr!important;align-items:center!important;gap:4px!important;min-width:0!important}
+.nav-car{justify-self:center!important}
+.nav-title{justify-self:center!important;text-align:center!important;font-size:15.5px!important;max-width:100%!important;overflow:visible!important;text-overflow:clip!important;white-space:nowrap!important;letter-spacing:-.55px!important}
+.menu-btn{grid-column:3!important;justify-self:end!important}
+.vehiculo{width:74px!important;min-width:74px!important}
+body.text-size-small .nav-title{font-size:14px!important}
+body.text-size-large .nav-title{font-size:17px!important}
+body.text-size-small .vehiculo{width:70px!important;min-width:70px!important}
+body.text-size-large .vehiculo{width:82px!important;min-width:82px!important}
+@media(max-width:390px){.nav-title{font-size:14.8px!important;letter-spacing:-.65px!important}.vehiculo{width:72px!important;min-width:72px!important}}
+@media(max-width:340px){.nav-title{font-size:13.7px!important}.vehiculo{width:70px!important;min-width:70px!important}}
+
+
+/* Boleta de carga combustible */
+.foto-combustible{margin-top:9px;padding:6px 0 2px;background:transparent;border:none}
+.receipt-upload{width:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;cursor:pointer;user-select:none;-webkit-tap-highlight-color:transparent}
+.receipt-icon{width:100%;max-width:160px;min-height:118px;border:2px dashed var(--border);border-radius:14px;background:rgba(255,255,255,.72);display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+body.dark .receipt-icon{background:rgba(255,255,255,.08)}
+.receipt-paper{width:74px;height:92px;background:#fff;border:2px solid #1f2937;border-radius:8px 8px 4px 4px;box-shadow:0 3px 8px var(--shadow);position:relative}
+.receipt-paper:before{content:'';position:absolute;left:11px;right:11px;top:18px;height:4px;background:#1f2937;border-radius:99px;box-shadow:0 16px 0 #1f2937,0 32px 0 #1f2937,0 48px 0 #1f2937}
+.receipt-paper:after{content:'';position:absolute;left:0;right:0;bottom:-2px;height:10px;background:linear-gradient(135deg,transparent 7px,#fff 0) left bottom/14px 10px repeat-x}
+.receipt-text{font-size:13px;font-weight:800;color:var(--muted);text-align:center}
+.receipt-upload:active .receipt-icon{transform:scale(.99)}
+.foto-preview{width:100%;display:flex;flex-direction:column;align-items:center;gap:6px}
+.foto-preview img{width:100%;max-width:180px;max-height:180px;border-radius:12px;border:2px solid var(--border);object-fit:cover;background:#fff;box-shadow:0 2px 8px var(--shadow)}
+.foto-preview .clear-btn{align-self:center}
+.photo-modal-actions{display:grid;grid-template-columns:1fr;gap:9px;margin-top:10px}
+.photo-option-btn{border:none;border-radius:12px;padding:12px;font-size:16px;font-weight:800;background:var(--green);color:#071b10;cursor:pointer}
+.photo-option-btn.secondary{background:var(--accent);color:white}
+
+
+/* Ajuste boleta insertada: texto dinámico y X lateral */
+.foto-combustible{position:relative!important;padding-right:40px!important;min-height:36px!important}
+.foto-combustible .receipt-upload{padding:0 4px!important}
+.foto-combustible #clearFotoCombustible{position:absolute!important;right:2px!important;top:50%!important;transform:translateY(-50%)!important;z-index:2!important}
+.foto-combustible #clearFotoCombustible:active{transform:translateY(-50%) scale(.94)!important}
+.foto-preview img{max-width:210px!important;max-height:210px!important}
+.receipt-text{margin-top:2px!important}
+
+</style></head><body><main>
+<header class="app-navbar">
+  <div class="nav-brand"><span class="nav-car" aria-hidden="true">🚗</span><span class="nav-title">Formulario de recepción de vehículo</span></div>
+  <button type="button" id="settingsMenuBtn" class="menu-btn" aria-label="Abrir ajustes">☰</button>
+</header>
+<form id="formulario" novalidate>
+<section class="card"><div class="row"><label for="inspector">Inspector:</label><input id="inspector" class="boxinput" type="tel" inputmode="numeric" pattern="[0-9]*" placeholder="N°" required autocomplete="new-password" autocorrect="off" spellcheck="false" aria-autocomplete="none" data-1p-ignore="true" data-bwignore="true"><button type="button" class="clear-btn" data-clear="inspector" aria-label="Limpiar inspector">×</button></div></section>
+<section class="card"><h3>Vehículo</h3><div class="radio-group"><label><input type="radio" name="vehiculo1" value="auto" required>Auto</label><label><input type="radio" name="vehiculo1" value="camioneta">Camioneta</label><label><input type="radio" name="vehiculo1" value="moto">Moto</label></div><div class="row" style="margin-top:10px"><label for="vehiculo">PPU:</label><input class="vehiculo" type="text" maxlength="4" id="vehiculo" placeholder="XXXX" required><label>*</label><input class="ppu" type="tel" maxlength="2" id="ppu" placeholder="XX" required autocomplete="new-password" aria-autocomplete="none" data-1p-ignore="true" data-bwignore="true"><button type="button" class="clear-btn" data-clear="ppu" aria-label="Limpiar PPU">×</button></div></section>
+<section class="card hidden" id="plantilla"><h3>Verificar Cargos</h3><div class="row" id="conosRow"><label for="conos">Conos:</label><input id="conos" type="tel" class="conos" placeholder="XX" inputmode="numeric" pattern="[0-9]*" enterkeyhint="next" autocomplete="new-password" autocorrect="off" spellcheck="false" required aria-autocomplete="none" data-1p-ignore="true" data-bwignore="true"><button type="button" class="clear-btn" data-clear="conos" aria-label="Limpiar conos">×</button></div><div style="display:flex;align-items:center;width:100%;margin-top:6px"><div class="pill-summary" id="cargoSummary" style="flex:1;margin:0;text-align:center">Seleccione Auto, Moto o Camioneta para ver cargos</div><button type="button" id="toggleCargoSections" style="margin-left:8px;width:46px;height:46px;flex:0 0 46px;font-size:30px;font-weight:bold;border-radius:10px">−</button></div><label class="toggle-all" style="margin-top:12px"><input type="checkbox" id="todos">Marcar todos los visibles</label><div id="cargoContent"><div class="cargo-section"><h4>Documentos</h4><div class="check-grid"><label class="check-item" data-veh="all"><input class="cargo-check" type="checkbox" id="tarjeta"><span>Tarjeta de combustible</span></label>
+<label class="check-item" data-veh="all"><input class="cargo-check" type="checkbox" id="bitacora_auxiliar"><span>Bitácora auxiliar</span></label>
+<label class="check-item" data-veh="all"><input class="cargo-check" type="checkbox" id="permiso_circulacion"><span>Permiso de circulación</span></label>
+<label class="check-item" data-veh="all"><input class="cargo-check" type="checkbox" id="revision_tecnica"><span>Revisión técnica</span></label>
+<label class="check-item" data-veh="all"><input class="cargo-check" type="checkbox" id="seguro_obligatorio"><span>Seguro obligatorio</span></label></div></div><div class="cargo-section"><h4>Equipamiento</h4><div class="check-grid"><label class="check-item" data-veh="all"><input class="cargo-check" type="checkbox" id="aseo"><span>Aseo</span></label>
+<label class="check-item hidden" data-veh="auto"><input class="cargo-check" type="checkbox" id="gata"><span>Gata</span></label>
+<label class="check-item hidden" data-veh="auto"><input class="cargo-check" type="checkbox" id="llave"><span>Llave rueda</span></label>
+<label class="check-item hidden" data-veh="auto"><input class="cargo-check" type="checkbox" id="rueda"><span>Rueda repuesto</span></label>
+<label class="check-item hidden" data-veh="auto"><input class="cargo-check" type="checkbox" id="extintor_chico"><span>Kit de emergencias</span></label>
+<label class="check-item hidden" data-veh="auto"><input class="cargo-check" type="checkbox" id="extintor_grande"><span>Extintor grande</span></label>
+</div></div></div></section>
+<section class="card" id="cargaCombustibleCard"><h3>Carga Combustible</h3><div class="radio-group"><label><input type="radio" name="opc1" id="si" value="1" required>Sí</label><label><input type="radio" name="opc1" id="no" value="2">No</label></div><div class="row" style="margin-top:10px"><label for="estanque">Estado estanque:</label><select class="estanque" id="estanque" required><option>100 %</option><option>90 %</option><option>80 %</option><option>70 %</option><option>60 %</option><option>50 %</option><option>40 %</option><option>30 %</option><option>20 %</option><option>10 %</option></select></div><div id="fotoCombustibleArea" class="foto-combustible hidden">
+  <div id="openFotoCombustible" class="receipt-upload" role="button" tabindex="0" aria-label="Insertar boleta">
+    <div id="receiptPlaceholder" class="receipt-icon"><span class="receipt-paper" aria-hidden="true"></span></div>
+    <div id="fotoPreview" class="foto-preview hidden">
+      <img id="fotoPreviewImg" alt="Boleta cargada">
+    </div>
+    <span id="receiptText" class="receipt-text">Insertar boleta</span>
+  </div>
+  <button type="button" id="clearFotoCombustible" class="clear-btn hidden" aria-label="Eliminar boleta">×</button>
+  <input type="file" id="fotoCamaraInput" accept="image/*" capture="environment" hidden>
+  <input type="file" id="fotoArchivoInput" accept="image/*" hidden>
+</div><div id="novedadesTargetCarga"></div><div class="fuel-subcard hidden" id="carga"><div class="fuel-fields"><div class="field-line"><label for="boucher">Boucher:</label><input class="boucher" type="tel" id="boucher" placeholder="XXXX" inputmode="numeric" pattern="[0-9]*" enterkeyhint="next" autocomplete="new-password" autocorrect="off" spellcheck="false" aria-autocomplete="none" data-1p-ignore="true" data-bwignore="true"><button type="button" class="clear-btn" data-clear="boucher" aria-label="Limpiar boucher">×</button><span class="small-label">Últimos 4 dígitos</span></div><div><label for="lugar">Lugar:</label><select class="lugar" id="lugar"><option value="">[Seleccione]</option>
+<option value="(01) AVDA. COLON 7400">(01) AVDA. COLON 7400</option>
+<option value="(02) CALLE LOS POZOS 7180">(02) CALLE LOS POZOS 7180</option>
+<option value="(03) CAMINO A FARELLONES 14380">(03) CAMINO A FARELLONES 14380</option>
+<option value="(04) COPEC -APOQUINDO 7520">(04) COPEC -APOQUINDO 7520</option>
+<option value="(05) CRISTOBAL COLON 4359">(05) CRISTOBAL COLON 4359</option>
+<option value="(06) CRISTOBAL COLON 7026">(06) CRISTOBAL COLON 7026</option>
+<option value="(07) ESTACIÓN DE SERVICIO DE OTRA COMUNA RM">(07) ESTACIÓN DE SERVICIO DE OTRA COMUNA RM</option>
+<option value="(08) ESTACIÓN DE SERVICIO DE OTRAS REGIONES">(08) ESTACIÓN DE SERVICIO DE OTRAS REGIONES</option>
+<option value="(09) GENERAL BLANCHE 11860">(09) GENERAL BLANCHE 11860</option>
+<option value="(10) LAS CONDES 8321">(10) LAS CONDES 8321</option>
+<option value="(11) MANQUEHUE NORTE 674 / PDTE.RIESCO">(11) MANQUEHUE NORTE 674 / PDTE.RIESCO</option>
+<option value="(12) PATAGONIA 75">(12) PATAGONIA 75</option>
+<option value="(13) SANTA MARIA 2890">(13) SANTA MARIA 2890</option>
+<option value="(14) TOMAS MORO 1945">(14) TOMAS MORO 1945</option>
+</select></div><div class="field-line"><label for="kmcarga">Km carga:</label><input type="tel" id="kmcarga" class="kmcarga" inputmode="numeric" pattern="[0-9]*" enterkeyhint="next" autocomplete="new-password" autocorrect="off" spellcheck="false" placeholder="000.000" maxlength="7" aria-autocomplete="none" data-1p-ignore="true" data-bwignore="true"><button type="button" class="clear-btn" data-clear="kmcarga" aria-label="Limpiar km carga">×</button></div><div class="field-line"><label for="hora">Hora:</label><input class="hora" type="tel" id="hora" placeholder="XX" inputmode="numeric" pattern="[0-9]*" enterkeyhint="next" autocomplete="new-password" autocorrect="off" spellcheck="false" aria-autocomplete="none" data-1p-ignore="true" data-bwignore="true"><span>:</span><input class="minuto" type="tel" id="minuto" placeholder="XX" inputmode="numeric" pattern="[0-9]*" enterkeyhint="next" autocomplete="new-password" autocorrect="off" spellcheck="false" aria-autocomplete="none" data-1p-ignore="true" data-bwignore="true"><span>Hrs.</span><button type="button" class="clear-btn" data-clear-pair="hora,minuto" aria-label="Limpiar hora y minutos">×</button></div><div class="field-line"><label for="litros">Litros:</label><input type="tel" id="litros" class="litros" inputmode="numeric" pattern="[0-9]*" enterkeyhint="next" autocomplete="new-password" autocorrect="off" spellcheck="false" maxlength="6" placeholder="00,000" aria-autocomplete="none" data-1p-ignore="true" data-bwignore="true"><button type="button" class="clear-btn" data-clear="litros" aria-label="Limpiar litros">×</button></div><div class="field-line"><label for="total">Total:</label><input type="tel" id="total" class="total" placeholder="$" inputmode="numeric" pattern="[0-9]*" enterkeyhint="done" autocomplete="new-password" autocorrect="off" spellcheck="false" aria-autocomplete="none" data-1p-ignore="true" data-bwignore="true"><button type="button" class="clear-btn" data-clear="total" aria-label="Limpiar total">×</button></div><div id="novedadesTargetDatos"></div></div></div></section>
+<div id="novedadesSection" class="novedades-section"><div id="novedadesBox" class="novedades-box hidden"><div class="novedades-input-line"><textarea id="novedadesvehiculo" placeholder="Novedades de vehículos"></textarea><button type="button" class="clear-btn" data-clear="novedadesvehiculo" aria-label="Limpiar novedades">×</button></div></div><label class="novedades-toggle"><input type="checkbox" id="novedadesCheck">Novedades de vehículos</label></div>
+<div id="validationMsg" class="validation-msg">Complete los campos obligatorios marcados en rojo.</div>
+<button id="submit" type="submit" class="boton">Enviar WhatsApp</button>
+<div class="report-link"><a href="https://wa.me/?text=*Describa el error en la app :* %0A%0A" target="_blank" rel="noopener noreferrer">Reportar error en la app</a></div>
+</form></main><div id="settingsModal" class="modal-backdrop" aria-hidden="true"><div class="modal settings-modal"><h3>Ajustes</h3><div class="setting-row"><span>Tamaño del texto</span><div class="text-size-controls"><button type="button" id="decreaseText" class="mini-btn">−</button><span id="textSizeLabel" class="text-size-label">Normal</span><button type="button" id="increaseText" class="mini-btn">+</button></div></div><div class="settings-preview" id="settingsPreview">Así se verá el texto en la aplicación.</div><label class="setting-row setting-check"><span>Tema oscuro</span><input type="checkbox" id="darkModeSetting"></label><label class="setting-row setting-check"><span>Mostrar subir boleta</span><input type="checkbox" id="showReceiptSetting"></label><button type="button" id="saveSettings" class="secondary-btn">Okay</button></div></div><div id="summaryModal" class="modal-backdrop" aria-hidden="true"><div class="modal"><h3>Resumen antes de enviar</h3><div id="summaryContent" class="summary-content"></div><div class="modal-actions"><button type="button" id="cancelSummary" class="secondary-btn close-btn">Cancelar</button><button type="button" id="confirmSummary" class="secondary-btn">Abrir WhatsApp</button></div></div></div><div id="photoChoiceModal" class="modal-backdrop" aria-hidden="true"><div class="modal"><h3>Foto de carga</h3><p class="help">Elige cómo quieres agregar la imagen.</p><div class="photo-modal-actions"><button type="button" id="takeFuelPhoto" class="photo-option-btn">📸 Sacar fotografía</button><button type="button" id="uploadFuelPhoto" class="photo-option-btn secondary">🖼️ Subir imagen</button><button type="button" id="cancelFuelPhoto" class="secondary-btn close-btn">Cancelar</button></div></div></div><script>
+const documentChecks = ['tarjeta','bitacora_auxiliar','permiso_circulacion','revision_tecnica','seguro_obligatorio'];
+const equipmentCommonChecks = ['aseo'];
+const equipmentAutoChecks = ['gata','llave','rueda','extintor_chico','extintor_grande'];
+const equipmentMotoChecks = [];
+const equipmentCamionetaChecks = [...equipmentAutoChecks];
+const labels = {tarjeta:'Tarjeta de combustible',bitacora_auxiliar:'Bitácora auxiliar',permiso_circulacion:'Permiso de circulación',revision_tecnica:'Revisión técnica',seguro_obligatorio:'Seguro obligatorio',aseo:'Aseo',gata:'Gata',llave:'Llave rueda',rueda:'Rueda repuesto',extintor_chico:'Kit de emergencias',extintor_grande:'Extintor grande'};
+let pendingWhatsappUrl = '';
+
+function isMobile(){return /iphone|ipad|android|blackberry|nokia|opera mini|windows mobile|windows phone|iemobile/i.test(navigator.userAgent)}
+function byId(id){return document.getElementById(id)}
+function applyTheme(mode){
+  document.body.classList.toggle('dark', mode==='dark');
+  const btn=byId('themeToggle');
+  if(btn) btn.textContent = mode==='dark' ? '🌙' : '☀️';
+  try{localStorage.setItem('recepcionTheme', mode)}catch(e){}
+}
+function toggleTheme(){
+  const next=document.body.classList.contains('dark') ? 'light' : 'dark';
+  applyTheme(next);
+}
+const textSizeOptions=['small','normal','large'];
+let tempTextSize='normal';
+function applyTextSize(size,save=false){
+  if(!textSizeOptions.includes(size)) size='normal';
+  document.body.classList.remove('text-size-small','text-size-normal','text-size-large');
+  document.body.classList.add('text-size-'+size);
+  const labelMap={small:'Pequeño',normal:'Normal',large:'Grande'};
+  const lbl=byId('textSizeLabel'); if(lbl) lbl.textContent=labelMap[size];
+  const preview=byId('settingsPreview'); if(preview){preview.className='settings-preview preview-'+size;}
+  if(save){try{localStorage.setItem('recepcionTextSize',size)}catch(e){}}
+}
+function openSettings(){
+  tempTextSize=(()=>{try{return localStorage.getItem('recepcionTextSize')||'normal'}catch(e){return 'normal'}})();
+  const darkBox=byId('darkModeSetting'); if(darkBox) darkBox.checked=document.body.classList.contains('dark');
+  applyTextSize(tempTextSize,false);
+  const modal=byId('settingsModal'); modal.classList.add('show'); modal.setAttribute('aria-hidden','false');
+}
+function closeSettings(save=false){
+  if(save){
+    applyTextSize(tempTextSize,true);
+    applyTheme(byId('darkModeSetting')?.checked?'dark':'light');
+  }else{
+    const saved=(()=>{try{return localStorage.getItem('recepcionTextSize')||'normal'}catch(e){return 'normal'}})();
+    applyTextSize(saved,false);
+  }
+  const modal=byId('settingsModal'); modal.classList.remove('show'); modal.setAttribute('aria-hidden','true');
+}
+function changeTempTextSize(delta){
+  let i=textSizeOptions.indexOf(tempTextSize);
+  i=Math.max(0,Math.min(textSizeOptions.length-1,i+delta));
+  tempTextSize=textSizeOptions[i];
+  applyTextSize(tempTextSize,false);
+}
+function selectedType(){const checked=document.querySelector('input[name="vehiculo1"]:checked');return checked?checked.value:''}
+function activeChecks(){
+  const type=selectedType();
+  if(type==='auto' || type==='camioneta') return [...documentChecks,...equipmentCommonChecks,...equipmentAutoChecks];
+  if(type==='moto') return [...documentChecks,...equipmentCommonChecks,...equipmentMotoChecks];
+  return [];
+}
+function openCargoGroups(){}
+function updateVehicleUI(){
+  const type=selectedType();
+  const vehiculoInput=byId('vehiculo');
+  if(vehiculoInput){
+    const max=type==='moto'?3:4;
+    vehiculoInput.maxLength=max;
+    vehiculoInput.placeholder=max===3?'XXX':'XXXX';
+    vehiculoInput.value=vehiculoInput.value.replace(/[^a-zA-Z]/g,'').toUpperCase().slice(0,max);
+  }
+  byId('plantilla').classList.toggle('hidden',!type);
+  document.querySelectorAll('[data-veh]').forEach(el=>{
+    const modes=(el.dataset.veh||'').split(' ');
+    const show=type && (modes.includes('all') || modes.includes(type) || (type==='camioneta' && modes.includes('auto')));
+    el.classList.toggle('hidden',!show);
+  });
+  const showConos = type && type !== 'moto';
+  byId('conosRow').classList.toggle('hidden', !showConos);
+  byId('conos').required = !!showConos;
+  if(!showConos) byId('conos').value='';
+  document.querySelectorAll('.cargo-check').forEach(ch=>{if(!activeChecks().includes(ch.id)) ch.checked=false});
+  byId('todos').checked=true;
+  updateCargoSummary();
+  if(type) openCargoGroups();
+}
+
+function moveNovedades(){
+  const section=byId('novedadesSection');
+  const target = byId('si').checked ? byId('novedadesTargetDatos') : byId('novedadesTargetCarga');
+  if(section && target && section.parentElement !== target) target.appendChild(section);
+}
+
+function getSavedLugar(){try{return localStorage.getItem('recepcionLugarCarga') || ''}catch(e){return ''}}
+function saveLugarCarga(value){try{if(value)localStorage.setItem('recepcionLugarCarga',value)}catch(e){}}
+function restoreLugarCarga(){const lugar=byId('lugar'); const saved=getSavedLugar(); if(lugar && saved && [...lugar.options].some(o=>o.value===saved)) lugar.value=saved;}
+function toggleFuel(){
+  const show=byId('si').checked;
+  byId('carga').classList.toggle('hidden',!show);
+  const fotoArea=byId('fotoCombustibleArea');
+  const vis=byId('showReceiptSetting')?.checked!==false;
+  if(fotoArea) fotoArea.classList.toggle('hidden',!show||!vis);
+  ['boucher','lugar','kmcarga','hora','minuto','litros','total'].forEach(id=>{const el=byId(id);el.required=show;if(!show)el.value=''});
+  if(!show) clearFuelPhoto();
+  if(show) restoreLugarCarga();
+  moveNovedades();
+}
+
+function openPhotoChoice(){
+  const modal=byId('photoChoiceModal');
+  if(modal){modal.classList.add('show'); modal.setAttribute('aria-hidden','false');}
+}
+function closePhotoChoice(){
+  const modal=byId('photoChoiceModal');
+  if(modal){modal.classList.remove('show'); modal.setAttribute('aria-hidden','true');}
+}
+function handleFuelPhoto(file){
+  if(!file) return;
+  const img=byId('fotoPreviewImg');
+  const preview=byId('fotoPreview');
+  const placeholder=byId('receiptPlaceholder');
+  const clearBtn=byId('clearFotoCombustible');
+  if(!img || !preview) return;
+  const reader=new FileReader();
+  reader.onload=e=>{
+    img.src=e.target.result;
+    preview.classList.remove('hidden');
+    if(placeholder) placeholder.classList.add('hidden');
+    if(clearBtn) clearBtn.classList.remove('hidden');
+    const receiptText=byId('receiptText');
+    if(receiptText) receiptText.textContent='Presione para cambiar';
+  };
+  reader.readAsDataURL(file);
+}
+function clearFuelPhoto(){
+  const img=byId('fotoPreviewImg');
+  const preview=byId('fotoPreview');
+  const placeholder=byId('receiptPlaceholder');
+  const clearBtn=byId('clearFotoCombustible');
+  const camera=byId('fotoCamaraInput');
+  const upload=byId('fotoArchivoInput');
+  if(img) img.removeAttribute('src');
+  if(preview) preview.classList.add('hidden');
+  if(placeholder) placeholder.classList.remove('hidden');
+  if(clearBtn) clearBtn.classList.add('hidden');
+  const receiptText=byId('receiptText');
+  if(receiptText) receiptText.textContent='Insertar boleta';
+  if(camera) camera.value='';
+  if(upload) upload.value='';
+}
+
+function setAllVisibleCargo(checked){activeChecks().forEach(id=>byId(id).checked=checked);updateCargoSummary()}
+function updateCargoSummary(){
+  const summary=byId('cargoSummary'); if(!summary) return;
+  const chosen=activeChecks().filter(id=>byId(id)?.checked).length;
+  summary.textContent= selectedType() ? `${chosen} de ${activeChecks().length} cargos marcados` : 'Seleccione Auto, Moto o Camioneta para ver cargos';
+}
+function currentVehicleLettersMax(){return selectedType()==='moto' ? 3 : 4}
+function onlyLettersInput(el,next){const max=currentVehicleLettersMax();el.maxLength=max;el.placeholder=max===3?'XXX':'XXXX';el.value=el.value.replace(/[^a-zA-Z]/g,'').toUpperCase().slice(0,max);if(el.value.length===max&&next)byId(next).focus()}
+function onlyDigitsInput(el,max,next){el.value=el.value.replace(/\D/g,'').slice(0,max);if(el.value.length===max&&next)byId(next).focus()}
+function cleanNumberInput(el,max,next){let n=el.value.replace(/\D/g,'').slice(0,max);el.value=n;if(n.length===max&&next)byId(next).focus()}
+function formatMilesPesosInput(el,next){
+  const digits = el.value.replace(/\D/g,'').slice(0,5);
+  if(!digits){
+    el.value = '$ ';
+    return;
+  }
+  const formatted = digits.replace(/\B(?=(\d{3})+(?!\d))/g,'.');
+  el.value = '$ ' + formatted;
+  if(digits.length===5){el.blur();setTimeout(()=>{if(document.activeElement)document.activeElement.blur();},30);if(next)byId(next).focus();}
+}
+function formatKmCargaInput(el,next){
+  const digits = el.value.replace(/\D/g,'').slice(0,6);
+  el.value = digits.replace(/\B(?=(\d{3})+(?!\d))/g,'.');
+  if(digits.length === 6 && next) byId(next).focus();
+}
+function cleanLitrosInput(el,next){
+  let d=el.value.replace(/\D/g,'').slice(0,5);
+  let f=d;
+  if(d.length>=2){
+    if(d.length<=4){f=d[0]+','+d.slice(1);}
+    else{f=d.slice(0,2)+','+d.slice(2);}
+  }
+  el.value=f;
+  if(f.length===6&&next) byId(next).focus();
+}
+function cargoGroupLines(title, ids){
+  const visible=ids.filter(id=>activeChecks().includes(id));
+  if(!visible.length) return '';
+  return `*${title}:*%0a` + visible.map(id => `${byId(id).checked?'✅':'❌'} _${labels[id]}_`).join('%0a');
+}
+function cargoLines(){
+  const type=selectedType();
+  const equipment = (type==='auto' || type==='camioneta') ? [...equipmentCommonChecks,...equipmentAutoChecks] : [...equipmentCommonChecks,...equipmentMotoChecks];
+  return [cargoGroupLines('Documentos', documentChecks), cargoGroupLines('Equipamiento', equipment)].filter(Boolean).join('%0a');
+}
+function clearValidation(){
+  document.querySelectorAll('.invalid-field').forEach(el=>el.classList.remove('invalid-field'));
+  document.querySelectorAll('.invalid-card').forEach(el=>el.classList.remove('invalid-card'));
+  const msg=byId('validationMsg'); if(msg) msg.classList.remove('show');
+}
+function markInvalid(el){
+  if(!el) return;
+  el.classList.add('invalid-field');
+}
+function markRadioInvalid(name){
+  const first=document.querySelector(`input[name="${name}"]`);
+  const card=first?.closest('.card');
+  if(card) card.classList.add('invalid-card');
+}
+function validateRequiredFields(){
+  clearValidation();
+  const missing=[];
+  const add=id=>{const el=byId(id); if(el && !String(el.value||'').trim()){markInvalid(el); missing.push(el);}};
+  add('inspector'); add('vehiculo'); add('ppu');
+  if(!selectedType()){markRadioInvalid('vehiculo1'); missing.push(document.querySelector('input[name="vehiculo1"]'));}
+  const vehiculoEl=byId('vehiculo');
+  if(selectedType() && vehiculoEl && vehiculoEl.value.length !== currentVehicleLettersMax()){markInvalid(vehiculoEl); missing.push(vehiculoEl);}
+  const ppuEl=byId('ppu');
+  if(ppuEl && ppuEl.value.length !== 2){markInvalid(ppuEl); missing.push(ppuEl);}
+  if(selectedType() && selectedType() !== 'moto') add('conos');
+  ['permiso_circulacion','revision_tecnica','seguro_obligatorio'].forEach(id=>{
+    const el=byId(id);
+    if(el && !el.checked){el.classList.add('invalid-field'); missing.push(el); const card=el.closest('.cargo-section'); if(card) card.classList.add('invalid-card');}
+  });
+  if(!document.querySelector('input[name="opc1"]:checked')){markRadioInvalid('opc1'); missing.push(document.querySelector('input[name="opc1"]'));}
+  add('estanque');
+  if(byId('si').checked){
+    ['boucher','lugar','kmcarga','hora','minuto','litros','total'].forEach(add);
+  }
+  if(missing.length){
+    const msg=byId('validationMsg'); if(msg) msg.classList.add('show');
+    const first = missing.find(Boolean);
+    const target = first?.closest('.card') || first;
+    if(target) target.scrollIntoView({behavior:'smooth',block:'center'});
+    if(first && first.focus && !first.matches('input[type="radio"]')) first.focus();
+    return false;
+  }
+  return true;
+}
+function onlyDigitsCloseKeyboard(el,max){
+  el.value=el.value.replace(/\D/g,'').slice(0,max);
+  if(el.value.length===max){
+    el.blur();
+    setTimeout(()=>{if(document.activeElement && document.activeElement.blur) document.activeElement.blur();},30);
+  }
+}
+function handlePpuDigits(el){
+  el.value=el.value.replace(/\D/g,'').slice(0,2);
+  if(el.value.length===2){
+    if(selectedType() === 'auto' || selectedType() === 'camioneta'){
+      byId('conos').focus();
+    }else{
+      el.blur();
+      setTimeout(()=>{if(document.activeElement && document.activeElement.blur) document.activeElement.blur();},30);
+    }
+  }
+}
+
+
+function cargoGroupText(title, ids){
+  const visible=ids.filter(id=>activeChecks().includes(id));
+  if(!visible.length) return '';
+  return `${title}:
+` + visible.map(id => `${byId(id).checked?'✅':'❌'} ${labels[id]}`).join('\n');
+}
+function cargoText(){
+  const type=selectedType();
+  const equipment = (type==='auto' || type==='camioneta') ? [...equipmentCommonChecks,...equipmentAutoChecks] : [...equipmentCommonChecks,...equipmentMotoChecks];
+  return [cargoGroupText('Documentos', documentChecks), cargoGroupText('Equipamiento', equipment)].filter(Boolean).join('\n');
+}
+function getNovedadesText(){
+  return byId('novedadesCheck').checked ? (byId('novedadesvehiculo').value.trim() || 'Vehículo Sin Novedades') : 'Vehículo Sin Novedades';
+}
+function buildWhatsappMessage(){
+  const type=selectedType();
+  const si=byId('si').checked;
+  const inspector=byId('inspector').value;
+  const vehiculo=byId('vehiculo').value;
+  const ppu=byId('ppu').value;
+  const conos=byId('conos').value;
+  const novedades = getNovedadesText();
+  const typeLabel = type==='auto' ? 'Auto' : (type==='moto' ? 'Moto' : 'Camioneta');
+  let mensaje='send?=&text= '+`*Inspector :* _${inspector}_%0a`+`*Móvil :* _${vehiculo}-${ppu}_%0a`+`*Tipo :* _${typeLabel}_%0a`;
+  if(type !== 'moto') mensaje += `*Conos :* _${conos}_%0a`;
+  mensaje += '*Verificar Cargos :*%0a'+cargoLines()+'%0a';
+  if(!si){mensaje+='_*NO SE CARGA COMBUSTIBLE*_%0a'}
+  if(si){
+    mensaje+='*Carga de combustible :*%0a';
+    mensaje+=`*Lugar :* _${byId('lugar').value}_%0a`;
+    mensaje+=`*Hora :* _${byId('hora').value}_ *:* _${byId('minuto').value}_ _hrs_%0a`;
+    mensaje+=`*Boucher :* _${byId('boucher').value}_%0a`;
+    mensaje+=`*Km carga :* _${byId('kmcarga').value}_%0a`;
+    mensaje+=`*Litros :* _${byId('litros').value}_%0a`;
+    mensaje+=`*Total :* _${byId('total').value} pesos_%0a`;
+  }
+  mensaje+=`*Estanque :* _${byId('estanque').value}_%0a`+'*Novedades Vehículo :*%0a'+`_${novedades}._`;
+  return mensaje;
+}
+function buildSummaryText(){
+  const type=selectedType();
+  const si=byId('si').checked;
+  const typeLabel = type==='auto' ? 'Auto' : (type==='moto' ? 'Moto' : 'Camioneta');
+  let text = `Inspector: ${byId('inspector').value}\n`+
+    `Móvil: ${byId('vehiculo').value}-${byId('ppu').value}\n`+
+    `Tipo: ${typeLabel}\n`;
+  if(type !== 'moto') text += `Conos: ${byId('conos').value}\n`;
+  text += `\nVerificar Cargos:\n${cargoText()}\n\n`;
+  if(!si){
+    text += `NO SE CARGA COMBUSTIBLE\n`;
+  }else{
+    text += `Carga de combustible:\n`+
+      `Lugar: ${byId('lugar').value}\n`+
+      `Hora: ${byId('hora').value}:${byId('minuto').value} hrs\n`+
+      `Boucher: ${byId('boucher').value}\n`+
+      `Km carga: ${byId('kmcarga').value}\n`+
+      `Litros: ${byId('litros').value}\n`+
+      `Total: ${byId('total').value} pesos\n`;
+  }
+  text += `Estanque: ${byId('estanque').value}\n`+
+    `Novedades Vehículo:\n${getNovedadesText()}.`;
+  return text;
+}
+function showSummaryModal(){
+  const modal=byId('summaryModal');
+  byId('summaryContent').textContent = buildSummaryText();
+  modal.classList.add('show');
+  modal.setAttribute('aria-hidden','false');
+}
+function hideSummaryModal(){
+  const modal=byId('summaryModal');
+  modal.classList.remove('show');
+  modal.setAttribute('aria-hidden','true');
+}
+function sendWhatsapp(event){
+  event.preventDefault();
+  if(!validateRequiredFields()) return;
+  pendingWhatsappUrl = (isMobile()?'https://api.whatsapp.com/':'https://web.whatsapp.com/') + buildWhatsappMessage();
+  showSummaryModal();
+}
+
+function clearSingleField(id){
+  const el=byId(id);
+  if(!el) return;
+  el.value='';
+  el.classList.remove('invalid-field');
+  if(id==='total') el.placeholder='$';
+  if(id==='ppu'){
+    const firstPpu=byId('vehiculo');
+    if(firstPpu){firstPpu.value=''; firstPpu.classList.remove('invalid-field');}
+    el.value='';
+    if(firstPpu){firstPpu.focus(); return;}
+  }
+  if(id==='inspector'){
+    try{localStorage.removeItem('recepcionInspector')}catch(e){}
+  }
+  el.focus();
+}
+
+function clearPairFields(ids){
+  ids.split(',').forEach(id=>{const el=byId(id.trim()); if(el){el.value=''; el.classList.remove('invalid-field');}});
+  const first=byId(ids.split(',')[0].trim());
+  if(first) first.focus();
+}
+
+
+function saveLastPPU(){try{localStorage.setItem('lastVehiculo',byId('vehiculo').value);localStorage.setItem('lastPPU',byId('ppu').value);}catch(e){}}
+
+document.addEventListener('DOMContentLoaded',()=>{
+  const savedTheme = (()=>{try{return localStorage.getItem('recepcionTheme') || 'light'}catch(e){return 'light'}})();
+  const savedTextSize = (()=>{try{return localStorage.getItem('recepcionTextSize') || 'normal'}catch(e){return 'normal'}})();
+  applyTheme(savedTheme);
+  applyTextSize(savedTextSize,false);
+  const settingsBtn=byId('settingsMenuBtn'); if(settingsBtn) settingsBtn.addEventListener('click',openSettings);
+  byId('decreaseText').addEventListener('click',()=>changeTempTextSize(-1));
+  byId('increaseText').addEventListener('click',()=>changeTempTextSize(1));
+  byId('saveSettings').addEventListener('click',()=>closeSettings(true));
+  byId('showReceiptSetting').addEventListener('change',toggleFuel);
+  byId('darkModeSetting').addEventListener('change',e=>applyTheme(e.target.checked?'dark':'light'));
+  byId('settingsModal').addEventListener('click',e=>{if(e.target===byId('settingsModal')) closeSettings(false);});
+  document.querySelectorAll('input, textarea, select').forEach(el=>{
+    el.setAttribute('autocomplete','off');
+    el.setAttribute('autocorrect','off');
+    el.setAttribute('autocapitalize','off');
+    el.setAttribute('spellcheck','false');
+    el.setAttribute('data-lpignore','true');
+    el.setAttribute('data-form-type','other');
+  });
+  ['inspector','ppu','conos','boucher','kmcarga','hora','minuto','litros','total'].forEach(id=>{
+    const el=byId(id); 
+    if(el){
+      el.setAttribute('type','tel');
+      el.setAttribute('inputmode','numeric');
+      el.setAttribute('pattern','[0-9]*');
+      el.setAttribute('autocomplete','new-password');
+      el.setAttribute('aria-autocomplete','none');
+      el.setAttribute('data-lpignore','true');
+      el.setAttribute('data-1p-ignore','true');
+      el.setAttribute('data-bwignore','true');
+    }
+  });
+  document.querySelectorAll('[data-clear]').forEach(btn=>btn.addEventListener('click',()=>clearSingleField(btn.dataset.clear)));
+  document.querySelectorAll('[data-clear-pair]').forEach(btn=>btn.addEventListener('click',()=>clearPairFields(btn.dataset.clearPair)));
+  const inspectorInput=byId('inspector');
+  try{const savedInspector=localStorage.getItem('recepcionInspector'); if(savedInspector) inspectorInput.value=savedInspector;}catch(e){}
+  inspectorInput.addEventListener('input',e=>{e.target.value=e.target.value.replace(/\D/g,'').slice(0,4); if(e.target.value){try{localStorage.setItem('recepcionInspector', e.target.value)}catch(err){}}});
+    try{
+    const savedVehicleType=localStorage.getItem('recepcionVehiculoTipo');
+    if(savedVehicleType){
+      const savedRadio=document.querySelector(`input[name="vehiculo1"][value="${savedVehicleType}"]`);
+      if(savedRadio) savedRadio.checked=true;
+    }
+  }catch(e){}
+  document.querySelectorAll('input[name="vehiculo1"]').forEach(r=>r.addEventListener('change',()=>{try{localStorage.setItem('recepcionVehiculoTipo', r.value)}catch(e){} updateVehicleUI(); setTimeout(()=>byId('vehiculo').focus(),60);}));
+  document.querySelectorAll('input[name="opc1"]').forEach(r=>r.addEventListener('change',toggleFuel));
+  byId('todos').addEventListener('change',e=>setAllVisibleCargo(e.target.checked));
+  document.querySelectorAll('.cargo-check').forEach(ch=>ch.addEventListener('change',updateCargoSummary));
+  try{if(localStorage.getItem('lastVehiculo'))byId('vehiculo').value=localStorage.getItem('lastVehiculo');if(localStorage.getItem('lastPPU'))byId('ppu').value=localStorage.getItem('lastPPU');}catch(e){}
+document.querySelectorAll(".cargo-check").forEach(c=>c.checked=true);byId("todos").checked=true;updateCargoSummary();
+byId('vehiculo').addEventListener('input',e=>{onlyLettersInput(e.target,'ppu');saveLastPPU();});
+  byId('ppu').addEventListener('input',e=>{handlePpuDigits(e.target);saveLastPPU();});
+  byId('conos').addEventListener('input',e=>onlyDigitsCloseKeyboard(e.target,2));
+  byId("boucher").addEventListener("input",e=>onlyDigitsInput(e.target,4,"kmcarga"));
+  byId('hora').addEventListener('input',e=>onlyDigitsInput(e.target,2,'minuto'));
+  byId('minuto').addEventListener('input',e=>onlyDigitsInput(e.target,2,'litros'));
+  byId('kmcarga').addEventListener('input',e=>formatKmCargaInput(e.target,'hora'));
+  byId('litros').addEventListener('input',e=>cleanLitrosInput(e.target,'total'));
+  byId('total').addEventListener('focus',e=>{if(!e.target.value)e.target.value='$ '});
+  byId('total').addEventListener('input',e=>formatMilesPesosInput(e.target,'novedadesCheck'));
+  byId('total').addEventListener('blur',e=>{if(e.target.value.trim()==='$')e.target.value=''});
+  byId('lugar').addEventListener('change',()=>{saveLugarCarga(byId('lugar').value); byId('kmcarga').focus();});
+  const openFoto=byId('openFotoCombustible'); if(openFoto){ openFoto.addEventListener('click',openPhotoChoice); openFoto.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();openPhotoChoice();}}); }
+  const clearFoto=byId('clearFotoCombustible'); if(clearFoto) clearFoto.addEventListener('click',clearFuelPhoto);
+  const takePhoto=byId('takeFuelPhoto'); if(takePhoto) takePhoto.addEventListener('click',()=>{closePhotoChoice(); byId('fotoCamaraInput').click();});
+  const uploadPhoto=byId('uploadFuelPhoto'); if(uploadPhoto) uploadPhoto.addEventListener('click',()=>{closePhotoChoice(); byId('fotoArchivoInput').click();});
+  const cancelPhoto=byId('cancelFuelPhoto'); if(cancelPhoto) cancelPhoto.addEventListener('click',closePhotoChoice);
+  const photoModal=byId('photoChoiceModal'); if(photoModal) photoModal.addEventListener('click',e=>{if(e.target===photoModal) closePhotoChoice();});
+  const cameraInput=byId('fotoCamaraInput'); if(cameraInput) cameraInput.addEventListener('change',e=>handleFuelPhoto(e.target.files && e.target.files[0]));
+  const uploadInput=byId('fotoArchivoInput'); if(uploadInput) uploadInput.addEventListener('change',e=>handleFuelPhoto(e.target.files && e.target.files[0]));
+  byId('novedadesCheck').addEventListener('change',e=>{
+    byId('novedadesBox').classList.toggle('hidden',!e.target.checked);
+    if(!e.target.checked) byId('novedadesvehiculo').value='';
+    else byId('novedadesvehiculo').focus();
+  });
+  document.querySelectorAll('input, select, textarea').forEach(el=>{
+    el.addEventListener('input',()=>{el.classList.remove('invalid-field'); const msg=byId('validationMsg'); if(msg) msg.classList.remove('show');});
+    el.addEventListener('change',()=>{el.classList.remove('invalid-field'); const card=el.closest('.card'); if(card) card.classList.remove('invalid-card'); const msg=byId('validationMsg'); if(msg) msg.classList.remove('show');});
+  });
+  byId('cancelSummary').addEventListener('click',hideSummaryModal);
+  byId('summaryModal').addEventListener('click',e=>{if(e.target===byId('summaryModal')) hideSummaryModal();});
+  byId('confirmSummary').addEventListener('click',()=>{if(pendingWhatsappUrl){window.open(pendingWhatsappUrl,'_blank'); hideSummaryModal();}});
+  byId('formulario').addEventListener('submit',sendWhatsapp);
+  updateVehicleUI(); toggleFuel();
+});
+
+let cargoCollapsed=false;
+document.addEventListener('click',e=>{
+if(e.target&&e.target.id==='toggleCargoSections'){
+ cargoCollapsed=!cargoCollapsed;
+ document.getElementById('cargoContent').style.display=cargoCollapsed?'none':'block';
+ e.target.textContent=cargoCollapsed?'+':'−';
+}});
+</script></body></html>
